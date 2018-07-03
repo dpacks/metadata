@@ -1,4 +1,4 @@
-var stringKey = require('@dwcore/codec').toStr
+var stringKey = require('@dwebs/codec').toStr
 // var path = require('path')
 var xtend = require('xtend')
 var toiletdb = require('toiletdb')
