@@ -6,12 +6,12 @@ var toiletdb = require('toiletdb')
 module.exports = function (vault, opts) {
   if (!opts) opts = {}
 
-  var db = toiletdb({name: '/dpack.json', fs: vault})
+  var db = toiletdb({name: '/dweb.json', fs: vault})
   var fileDb = opts.file ? toiletdb(opts.file) : null
 
   var that = {
     read: function (cb) {
-      vault.stat('/dpack.json', function (err, stat) {
+      vault.stat('/dweb.json', function (err, stat) {
         if (err) return cb(err)
         db.read(cb)
       })

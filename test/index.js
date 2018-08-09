@@ -3,18 +3,18 @@ var path = require('path')
 var test = require('tape')
 var ddrive = require('@ddrive/core')
 var dwrem = require('@dwcore/rem')
-var dPackJSON = require('..')
+var dWebJson = require('..')
 
-test('Default dpack.json', function (t) {
-  var vault = ddrive(ram)
+test('Default dweb.json', function (t) {
+  var vault = ddrive(dwrem)
   vault.ready(function () {
-    var dpackjson = dPackJSON(vault)
-    dpackjson.read(function (err) {
+    var dwebjson = dWebJson(vault)
+    dwebjson.read(function (err) {
       t.ok(err, 'error read before write')
-      dpackjson.create({name: 'test'}, function (err) {
+      dwebjson.create({name: 'test'}, function (err) {
         t.error(err, 'no error')
 
-        dpackjson.read(function (err, data) {
+        dwebjson.read(function (err, data) {
           t.error(err, 'no error')
           t.ok(data, 'has metadata')
           t.same(data.url, `dweb://${vault.key.toString('hex')}`)
@@ -26,17 +26,17 @@ test('Default dpack.json', function (t) {
   })
 })
 
-test('Write dpack.json to vault', function (t) {
-  var vault = ddrive(ram)
+test('Write dweb.json to vault', function (t) {
+  var vault = ddrive(dwrem)
   vault.ready(function () {
-    var dpackjson = dPackJSON(vault)
-    dpackjson.create(function (err) {
+    var dwebjson = dWebJson(vault)
+    dwebjson.create(function (err) {
       t.error(err, 'no error')
-      dpackjson.write({specialVal: 'cat'}, check)
+      dwebjson.write({specialVal: 'cat'}, check)
 
       function check (err) {
         t.error(err, 'no error')
-        dpackjson.read(function (err, data) {
+        dwebjson.read(function (err, data) {
           t.error(err, 'no error')
           t.ok(data, 'has metadata')
           t.same(data.url, `dweb://${vault.key.toString('hex')}`, 'url ok')
@@ -50,9 +50,9 @@ test('Write dpack.json to vault', function (t) {
 
 test('.create with no writable vault errors', function (t) {
   var vault = { writable: false }
-  var dpackjson = dPackJSON(vault)
+  var dwebjson = dWebJson(vault)
   var async = false
-  dpackjson.create(function (err) {
+  dwebjson.create(function (err) {
     t.is(err.message, 'Vault not writable', 'should error')
     t.is(async, true, 'callback is asyncronous')
     t.end()
@@ -62,9 +62,9 @@ test('.create with no writable vault errors', function (t) {
 
 test('.write with key/value and no writable vault errors', function (t) {
   var vault = { writable: false }
-  var dpackjson = dPackJSON(vault)
+  var dwebjson = dWebJson(vault)
   var async = false
-  dpackjson.write('key', 'value', function (err) {
+  dwebjson.write('key', 'value', function (err) {
     t.is(err.message, 'Vault not writable', 'should error')
     t.is(async, true, 'callback is asyncronous')
     t.end()
@@ -74,9 +74,9 @@ test('.write with key/value and no writable vault errors', function (t) {
 
 test('.write with data object and no writable vault errors', function (t) {
   var vault = { writable: false }
-  var dpackjson = dPackJSON(vault)
+  var dwebjson = dWebJson(vault)
   var async = false
-  dpackjson.write({specialVal: 'cat'}, function (err) {
+  dwebjson.write({specialVal: 'cat'}, function (err) {
     t.is(err.message, 'Vault not writable', 'should error')
     t.is(async, true, 'callback is asyncronous')
     t.end()
@@ -84,14 +84,14 @@ test('.write with data object and no writable vault errors', function (t) {
   async = true
 })
 
-test('Write dpack.json to file and vault', function (t) {
-  var vault = ddrive(ram)
-  var file = path.join(__dirname, 'dpack.json')
+test('Write dweb.json to file and vault', function (t) {
+  var vault = ddrive(dwrem)
+  var file = path.join(__dirname, 'dweb.json')
   vault.ready(function () {
-    var dpackjson = dPackJSON(vault, {file: file})
-    dpackjson.create(function (err) {
+    var dwebjson = dWebJson(vault, {file: file})
+    dwebjson.create(function (err) {
       t.error(err, 'no error')
-      dpackjson.write({specialVal: 'cat'}, checkFile)
+      dwebjson.write({specialVal: 'cat'}, checkFile)
 
       function checkFile (err) {
         t.error(err, 'no error')
@@ -108,7 +108,7 @@ test('Write dpack.json to file and vault', function (t) {
 
       function checkRead (err) {
         t.error(err, 'no error')
-        dpackjson.read(function (err, data) {
+        dwebjson.read(function (err, data) {
           t.error(err, 'no error')
           t.ok(data, 'has metadata')
           t.same(data.url, `dweb://${vault.key.toString('hex')}`, 'url ok')
