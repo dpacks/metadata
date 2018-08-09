@@ -1,6 +1,6 @@
 {
   "name": "@dpack/metadata",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Library For Reading, Writing and Parsing dpack.json Files",
   "contributors": [
     "Jared Rice Sr. <jared@dwebs.io>",
@@ -17,7 +17,7 @@
     "xtend": "^4.0.1"
   },
   "devDependencies": {
-    "@ddrive/core": "*",
+    "@ddrive/core": "~2.0.1",
     "@dwcore/rem": "*",
     "standard": "*",
     "tap-spec": "^4.0.2",
